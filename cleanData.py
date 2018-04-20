@@ -4,25 +4,16 @@ import pandas as pd
 import gc
 import os
 from contextlib import contextmanager
-
-os.environ["OMP_NUM_THREADS"] = "4"
-os.environ['CUDA_VISIBLE_DEVICES'] = "0"
-
 @contextmanager
 def timer(name):
-    """
-    Taken from Konstantin Lopuhin https://www.kaggle.com/lopuhin
-    in script named : Mercari Golf: 0.3875 CV in 75 LOC, 1900 s
-    https://www.kaggle.com/lopuhin/mercari-golf-0-3875-cv-in-75-loc-1900-s
-    """
     t0 = time.time()
     yield
     print(f'[{name}] done in {time.time() - t0:.0f} s')
 
 # 读取数据
 with timer ("loading ..."):
-    part_1 = pd.read_csv('input\meinian_round1_data_part1_20180408.txt',sep='$')
-    part_2 = pd.read_csv('input\meinian_round1_data_part2_20180408.txt',sep='$')
+    part_1 = pd.read_csv('./dataset/round1_data1.txt',sep='$')
+    part_2 = pd.read_csv('./dataset/round1_data2.txt',sep='$')
     part_1_2 = pd.concat([part_1,part_2])
     del part_1,part_2
     gc.collect()
@@ -71,12 +62,13 @@ tmp = pd.concat([part_1_2_not_unique,no_unique_part[['vid','table_id','field_res
 # 行列转换
 print('finish')
 tmp = tmp.pivot(index='vid',values='field_results',columns='table_id')
-tmp.to_csv('tmp.csv')
+tmp.to_csv('./dataset/tmp.csv')
 print(tmp.shape)
 print('totle time',time.time() - begin_time)
 
-data=pd.read_csv('tmp.csv')
-target=pd.read_csv('input\meinian_round1_train_20180408.csv')
+"""
+data=pd.read_csv('./dataset/tmp.csv',low_memory=False)
+target=pd.read_csv('./dataset/round1_train.csv')
 
 #去掉五项指标csv中没有的vid
 result=data[data.vid.isin(target['vid'].values)]
@@ -91,41 +83,12 @@ def drop_miss(result,clk=0.9):
     return select_feature
 
 select=drop_miss(result)
-select.to_csv("now_feature.csv")
-
-import numpy as np
-import re
-#清洗5个指标中的数字
-def clean_data(a):
-    a=str(a)
-    if '未做' in a or '未查' in a or '弃查' in a:
-        return np.nan
-    if a.isdigit():
-        return a
-    else :
-        try:
-            return re.findall(r'^\d+\.\d+$', a)[0]
-        except:
-            if '>' in a:
-                return a[2:]
-            if '+' in a:
-                i=a.index('+')
-                return a[:i]
-            if  len(a)>4:
-               return a[0:4]
-            if len(a.split(sep='.'))>2:#2.2.8
-                i=a.rindex('.')
-                return a[0:i]+a[i+1:]
-for i in target.columns[1:]:
-    target[i]=target[i].apply(clean_data)
-
-target[target.columns[1:]]=target[target.columns[1:]].astype('float32')
-
-target.to_csv('clean_result.csv')
-
-train = pd.read_csv('input\meinian_round1_train_20180408.csv', encoding = 'utf-8')
-data=pd.read_csv('tmp.csv',low_memory=False)
+select.to_csv("./dataset/now_feature.csv")
+"""
+train = pd.read_csv('./dataset/round1_train.csv', encoding = 'utf-8')
+test= pd.read_csv('./dataset/round1_test.csv', encoding = 'utf-8')
+data=pd.read_csv('./dataset/tmp.csv',low_memory=False)
 train_new = data[data['vid'].isin(train['vid'].values)]
 test_new = data[data['vid'].isin(test['vid'].values)]
-train_new.to_csv("train_0415.csv",encoding='utf-8', index=False )
-test_new.to_csv("test_0415.csv",encoding='utf-8', index=False )
+train_new.to_csv("./dataset/train.csv",encoding='utf-8', index=False )
+test_new.to_csv("./dataset/test.csv",encoding='utf-8', index=False )

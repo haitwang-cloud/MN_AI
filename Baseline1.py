@@ -21,8 +21,6 @@ def xgb_error(pred, train_data):
     return 'error', np.mean(res)
 
 
-# train=pd.read_csv('input/train_0415.csv',low_memory=False)
-# test = pd.read_csv('input/test_0415.csv',low_memory=False)
 train = pd.read_csv('input/train_041723.csv', low_memory=False)
 test = pd.read_csv('input/test_041723.csv', low_memory=False)
 test_vid = test['vid']

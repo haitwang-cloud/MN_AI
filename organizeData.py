@@ -10,18 +10,13 @@ os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 
 @contextmanager
 def timer(name):
-    """
-    Taken from Konstantin Lopuhin https://www.kaggle.com/lopuhin
-    in script named : Mercari Golf: 0.3875 CV in 75 LOC, 1900 s
-    https://www.kaggle.com/lopuhin/mercari-golf-0-3875-cv-in-75-loc-1900-s
-    """
     t0 = time.time()
     yield
-    print(f'[{name}] done in {time.time() - t0:.0f} s')
+    #print(f'[{name}] done in {time.time() - t0:.0f} s')
 
 with timer ("loading ..."):
-    test = pd.read_csv('test_041717.csv')
-    train = pd.read_csv('train_041717.csv')
+    test = pd.read_csv('./dataset/test_0415.csv')
+    train = pd.read_csv('./dataset/train_0415.csv')
 
 temp = pd.concat([train, test])
 cols = temp.columns
@@ -429,7 +424,7 @@ for col in cols:
             print (col)
             obj_list_4.append(col)
             print (pd.unique(temp[col]))
-
+print("start writings")
 save_file = False
 if save_file == True:
     data=temp
@@ -438,9 +433,9 @@ if save_file == True:
     train_new = train_new.rename(columns={"收缩压": "Systolic", "舒张压": "Diastolic", "血清甘油三酯":"triglyceride", "血清高密度脂蛋白":"HDL", "血清低密度脂蛋白":"LDL"})
     print (train_new.shape)
     print (test_new.shape)
-    train_new.to_csv("train_041720.csv",encoding='utf-8', index=False )
-    test_new.to_csv("test_041720.csv",encoding='utf-8', index=False )
-
+    train_new.to_csv("./dataset/train.csv",encoding='utf-8', index=False )
+    test_new.to_csv("./dataset/test.csv",encoding='utf-8', index=False )
+print("stop writings")
 obj_list_55 = []
 for col in cols:
     if (np.array(temp[col]).dtype) == 'object':
