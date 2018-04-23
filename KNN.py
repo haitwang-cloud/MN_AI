@@ -25,9 +25,10 @@ y_test=y_test.convert_objects(convert_numeric=True)
 print(y_train.info(),y_test.info())
 
 print(X_train.shape, X_test.shape)
+
 # print(y_train.info(),y_test.info())
 print("Start filter features!!!")
-"""筛选缺失率小于0.1的特征"""
+# 筛选缺失率小于0.1
 col_train, col_test = [], []
 for item in X_train.columns[:]:
     tmp = np.sum(X_train[item].isnull()) / len(X_train)
@@ -62,11 +63,11 @@ print("Start Traing!!!!!!!!!!!!!!!!!!!!!")
 y_train_LB, y_train_HB, y_train_TRI, y_train_HDL, y_train_LDL \
     = y_train['LB'], y_train['HB'], y_train['TRI'], y_train['HDL'], y_train['LDL']
 
-clf_LB=KNeighborsRegressor(n_neighbors=16,weights='distance',n_jobs=-1)
-clf_HB=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=-1)
-clf_TRI=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=-1)
-clf_HDL=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=-1)
-clf_LDL=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=-1)
+clf_LB=KNeighborsRegressor(n_neighbors=16,weights='distance',n_jobs=1)
+clf_HB=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=1)
+clf_TRI=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=1)
+clf_HDL=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=1)
+clf_LDL=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=1)
 
 clf_LB.fit(X_train,y_train_LB)
 clf_HB.fit(X_train,y_train_HB)
@@ -77,8 +78,10 @@ clf_LDL.fit(X_train,y_train_LDL)
 y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL=\
     clf_LB.predict(X_test),clf_HB.predict(X_test),clf_TRI.predict(X_test),\
     clf_HDL.predict(X_test),clf_LDL.predict(X_test)
-y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL=pd.DataFrame(y_train_LB),pd.DataFrame(y_train_HB),pd.DataFrame(y_train_TRI),pd.DataFrame(y_train_HDL),pd.DataFrame(y_train_LDL)
-print(type(y_pred_LB))
+y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL=\
+    pd.DataFrame(y_pred_LB),pd.DataFrame(y_pred_HB),pd.DataFrame(y_pred_TRI),\
+    pd.DataFrame(y_pred_HDL),pd.DataFrame(y_pred_LDL)
+
 # y_train_LB.to_csv("./dataset/tmp1.csv", encoding='utf-8')
 # y_train_HB.to_csv("./dataset/tmp2.csv", encoding='utf-8')
 # y_train_TRI.to_csv("./dataset/tmp3.csv", encoding='utf-8')
