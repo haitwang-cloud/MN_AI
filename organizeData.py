@@ -1,6 +1,6 @@
 import time
 import pandas as pd
-import gc
+import re
 import numpy as np
 import os
 from contextlib import contextmanager
@@ -12,11 +12,11 @@ os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 def timer(name):
     t0 = time.time()
     yield
-    #print(f'[{name}] done in {time.time() - t0:.0f} s')
+    print(f'[{name}] done in {time.time() - t0:.0f} s')
 
 with timer ("loading ..."):
-    test = pd.read_csv('./dataset/test_0415.csv')
-    train = pd.read_csv('./dataset/train_0415.csv')
+    test = pd.read_csv('./dataset/test.csv')
+    train = pd.read_csv('./dataset/train.csv')
 
 temp = pd.concat([train, test])
 cols = temp.columns
@@ -44,8 +44,6 @@ mapping ={
         '具体内容请见分析报告。':np.nan,
         '详见医生诊疗。'      :np.nan,
         '详见中医养生报告'   :np.nan,
-
-
         '已完成，建议复诊，咨询电话：52190566转588':1,
 
          '-'             :0,
@@ -433,8 +431,8 @@ if save_file == True:
     train_new = train_new.rename(columns={"收缩压": "Systolic", "舒张压": "Diastolic", "血清甘油三酯":"triglyceride", "血清高密度脂蛋白":"HDL", "血清低密度脂蛋白":"LDL"})
     print (train_new.shape)
     print (test_new.shape)
-    train_new.to_csv("./dataset/train.csv",encoding='utf-8', index=False )
-    test_new.to_csv("./dataset/test.csv",encoding='utf-8', index=False )
+    train_new.to_csv("./dataset/train_tmp.csv",encoding='utf-8', index=False )
+    test_new.to_csv("./dataset/test_tmp.csv",encoding='utf-8', index=False )
 print("stop writings")
 obj_list_55 = []
 for col in cols:

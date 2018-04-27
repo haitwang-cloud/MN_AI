@@ -66,29 +66,11 @@ tmp.to_csv('./dataset/tmp.csv')
 print(tmp.shape)
 print('totle time',time.time() - begin_time)
 
-"""
-data=pd.read_csv('./dataset/tmp.csv',low_memory=False)
-target=pd.read_csv('./dataset/round1_train.csv')
 
-#去掉五项指标csv中没有的vid
-result=data[data.vid.isin(target['vid'].values)]
-
-#去掉缺失率大于0.9的特征
-def drop_miss(result,clk=0.9):
-    lie=pd.DataFrame(result.isnull().sum()).rename(columns={0:'counts'})
-    lie=lie[lie>len(result)*clk].isnull()
-    lie['counts']=lie['counts'].map({True:1,False:0})
-    select_feature=lie[lie['counts']==1].index.values
-    select_feature=result[select_feature]
-    return select_feature
-
-select=drop_miss(result)
-select.to_csv("./dataset/now_feature.csv")
-"""
 train = pd.read_csv('./dataset/round1_train.csv', encoding = 'utf-8')
 test= pd.read_csv('./dataset/round1_test.csv', encoding = 'utf-8')
 data=pd.read_csv('./dataset/tmp.csv',low_memory=False)
 train_new = data[data['vid'].isin(train['vid'].values)]
 test_new = data[data['vid'].isin(test['vid'].values)]
-train_new.to_csv("./dataset/train.csv",encoding='utf-8', index=False )
-test_new.to_csv("./dataset/test.csv",encoding='utf-8', index=False )
+train_new.to_csv("./dataset/train.csv",encoding='utf-8' )
+test_new.to_csv("./dataset/test.csv",encoding='utf-8')

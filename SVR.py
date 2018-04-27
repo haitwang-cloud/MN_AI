@@ -77,13 +77,15 @@ y_train_LB, y_train_HB, y_train_TRI, y_train_HDL, y_train_LDL \
 # y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL=\
 #     clf_LB.predict(X_test),clf_HB.predict(X_test),clf_TRI.predict(X_test),\
 #     clf_HDL.predict(X_test),clf_LDL.predict(X_test)
-# y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL=pd.DataFrame(y_train_LB),pd.DataFrame(y_train_HB),pd.DataFrame(y_train_TRI),pd.DataFrame(y_train_HDL),pd.DataFrame(y_train_LDL)
+# y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL=\
+#     pd.DataFrame(y_pred_LB),pd.DataFrame(y_pred_HB),pd.DataFrame(y_pred_TRI),\
+#     pd.DataFrame(y_pred_HDL),pd.DataFrame(y_pred_LDL)
 # print(type(y_pred_LB))
-# # y_train_LB.to_csv("./dataset/tmp1.csv", encoding='utf-8')
-# # y_train_HB.to_csv("./dataset/tmp2.csv", encoding='utf-8')
-# # y_train_TRI.to_csv("./dataset/tmp3.csv", encoding='utf-8')
-# # y_train_HDL.to_csv("./dataset/tmp4.csv", encoding='utf-8')
-# # y_train_LDL.to_csv("./dataset/tmp5.csv", encoding='utf-8')
+# y_train_LB.to_csv("./dataset/tmp1.csv", encoding='utf-8')
+# y_train_HB.to_csv("./dataset/tmp2.csv", encoding='utf-8')
+# y_train_TRI.to_csv("./dataset/tmp3.csv", encoding='utf-8')
+# y_train_HDL.to_csv("./dataset/tmp4.csv", encoding='utf-8')
+# y_train_LDL.to_csv("./dataset/tmp5.csv", encoding='utf-8')
 # result=pd.concat([y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL],axis=1)
 # result.to_csv("./dataset/PredResult.csv", encoding='utf-8',index=False)
 

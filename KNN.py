@@ -32,11 +32,11 @@ print("Start filter features!!!")
 col_train, col_test = [], []
 for item in X_train.columns[:]:
     tmp = np.sum(X_train[item].isnull()) / len(X_train)
-    if tmp < 0.1:
+    if tmp < 0.2:
         col_train.append(item)
 for item in X_test.columns[:]:
     tmp = np.sum(X_test[item].isnull()) / len(X_test)
-    if tmp < 0.1:
+    if tmp < 0.2:
         col_test.append(item)
 # 选择训练集和测试集的交集
 col = [item for item in col_train if item in col_test]
@@ -63,11 +63,11 @@ print("Start Traing!!!!!!!!!!!!!!!!!!!!!")
 y_train_LB, y_train_HB, y_train_TRI, y_train_HDL, y_train_LDL \
     = y_train['LB'], y_train['HB'], y_train['TRI'], y_train['HDL'], y_train['LDL']
 
-clf_LB=KNeighborsRegressor(n_neighbors=16,weights='distance',n_jobs=1)
-clf_HB=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=1)
-clf_TRI=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=1)
-clf_HDL=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=1)
-clf_LDL=KNeighborsRegressor(n_neighbors=16,weights='uniform',n_jobs=1)
+clf_LB=KNeighborsRegressor(n_neighbors=15,weights='distance',n_jobs=1)
+clf_HB=KNeighborsRegressor(n_neighbors=15,weights='uniform',n_jobs=1)
+clf_TRI=KNeighborsRegressor(n_neighbors=15,weights='uniform',n_jobs=1)
+clf_HDL=KNeighborsRegressor(n_neighbors=15,weights='uniform',n_jobs=1)
+clf_LDL=KNeighborsRegressor(n_neighbors=15,weights='uniform',n_jobs=1)
 
 clf_LB.fit(X_train,y_train_LB)
 clf_HB.fit(X_train,y_train_HB)
@@ -88,7 +88,7 @@ y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL=\
 # y_train_HDL.to_csv("./dataset/tmp4.csv", encoding='utf-8')
 # y_train_LDL.to_csv("./dataset/tmp5.csv", encoding='utf-8')
 result=pd.concat([y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL],axis=1)
-result.to_csv("./dataset/PredResult.csv", encoding='utf-8',index=False)
+result.to_csv("./dataset/PredResultKNN0426.csv", encoding='utf-8',index=False)
 
 # clf=KNeighborsRegressor()
 # clf.fit(X_train,y_train_LB)
