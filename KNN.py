@@ -40,14 +40,11 @@ y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL=\
     pd.DataFrame(y_pred_LB),pd.DataFrame(y_pred_HB),pd.DataFrame(y_pred_TRI),\
     pd.DataFrame(y_pred_HDL),pd.DataFrame(y_pred_LDL)
 
-print(np.sum(y_train_LDL.isnull()))
-
 
 y_LB,y_HB,y_TRI,y_HDL,y_LDL=\
     clf_LB.predict(X_train),clf_HB.predict(X_train),clf_TRI.predict(X_train),\
     clf_HDL.predict(X_train),clf_LDL.predict(X_train)
 
-print(y_LDL)
 
 print("MSE_LB",mean_squared_log_error(y_train_LB,y_LB))
 print("MSE_HB",mean_squared_log_error(y_train_HB,y_HB))

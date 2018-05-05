@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 from sklearn.svm import SVR
-from sklearn.model_selection import GridSearchCV
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 # 对训练集和测试集的y按照vid排序,和X一一对应
 y_train = pd.read_csv('./dataset/round1_train.csv', encoding='utf-8',
@@ -53,6 +54,21 @@ X_train, X_test = X_train[col], X_test[col]
 print(X_train.shape, X_test.shape)
 
 X_train, X_test = X_train.fillna(0), X_test.fillna(0)
+# print(X_train.info(), X_test.info())
+
+#PCA
+X_train=PCA(n_components=10).fit_transform(X_train)
+X_test=PCA(n_components=10).fit_transform(X_test)
+
+print(X_train.shape, X_test.shape)
+scaler=StandardScaler()
+
+X_train=scaler.fit_transform(X_train)
+X_test=scaler.fit_transform(X_test)
+
+
+
+X_train,X_test=pd.DataFrame(X_train),pd.DataFrame(X_test)
 print(X_train.info(), X_test.info())
 
 X_train.to_csv("./dataset/x_train.csv", encoding='utf-8')
