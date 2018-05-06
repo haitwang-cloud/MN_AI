@@ -8,9 +8,9 @@ from sklearn.metrics import mean_squared_log_error
 
 # 读取训练集和测试集
 X_train = pd.read_csv('./dataset/x_train.csv', encoding='utf-8', low_memory=False,header='infer')
-X_test = pd.read_csv('./dataset/x_test.csv', encoding='utf-8', low_memory=False,header='infer')
+X_test = pd.read_csv('./dataset/x_test_b.csv', encoding='utf-8', low_memory=False,header='infer')
 y_train = pd.read_csv('./dataset/y_train.csv', encoding='utf-8', low_memory=False,header='infer',index_col='vid')
-y_test = pd.read_csv('./dataset/y_test.csv', encoding='utf-8', low_memory=False,header='infer',index_col='vid')
+y_test = pd.read_csv('./dataset/y_test_b.csv', encoding='utf-8', low_memory=False,header='infer',index_col='vid')
 
 y_train, y_test = y_train.fillna(0), y_test.fillna(0)
 y_train, y_test = y_train.convert_objects(
@@ -27,10 +27,10 @@ y_train_LB, y_train_HB, y_train_TRI, y_train_HDL, y_train_LDL \
 
 
 clf_LB=lgb.LGBMRegressor(max_depth=10,n_estimators=100,learning_rate=0.01,num_leaves=300,max_bin=200)
-clf_HB=lgb.LGBMRegressor(max_depth=10,n_estimators=100,learning_rate=0.01,num_leaves=300,max_bin=200)
-clf_TRI=lgb.LGBMRegressor(max_depth=10,n_estimators=100,learning_rate=0.01,num_leaves=300,max_bin=200)
-clf_HDL=lgb.LGBMRegressor(max_depth=10,n_estimators=100,learning_rate=0.01,num_leaves=300,max_bin=200)
-clf_LDL=lgb.LGBMRegressor(max_depth=10,n_estimators=100,learning_rate=0.01,num_leaves=300,max_bin=200)
+clf_HB=lgb.LGBMRegressor(max_depth=20,n_estimators=20,learning_rate=0.003,num_leaves=100,max_bin=100)
+clf_TRI=lgb.LGBMRegressor(max_depth=20,n_estimators=400,learning_rate=0.003,num_leaves=100,max_bin=100)
+clf_HDL=lgb.LGBMRegressor(max_depth=30,n_estimators=300,learning_rate=0.005,num_leaves=150,max_bin=100)
+clf_LDL=lgb.LGBMRegressor(max_depth=20,n_estimators=100,learning_rate=0.03,num_leaves=100,max_bin=150)
 
 clf_LB.fit(X_train,y_train_LB)
 clf_HB.fit(X_train,y_train_HB)
@@ -48,16 +48,16 @@ y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL=\
 print("okay")
 
 result=pd.concat([y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL],axis=1)
-result.to_csv("./dataset/PredResultLGB_0505.csv", encoding='utf-8',index=False)
+result.to_csv("./dataset/PredResultLGB_0506_1.csv", encoding='utf-8',index=False)
 # 构建LightGBM模型
 # model_lgb=lgb.LGBMRegressor()
 # param_lgb_list={
-#     'boosting':['gbdt'],
-#     "max_depth":[10],
-#     "n_estimators":[100],
-#     "learning_rate":[0.01],
-#     "num_leaves":[300],
-#     'max_bin':[200],
+#     'boosting':['gbdt','rf'],
+#     "max_depth":[20],
+#     "n_estimators":[20],
+#     "learning_rate":[0.003],
+#     "num_leaves":[100],
+#     'max_bin':[100],
 
 # }
 
@@ -75,7 +75,7 @@ result.to_csv("./dataset/PredResultLGB_0505.csv", encoding='utf-8',index=False)
 
 
 
-# grid_lgb_HB=GridSearchCV(model_lgb,param_grid=param_lgb_list,cv=10,verbose=0,n_jobs=-1,scoring='neg_mean_squared_log_error')
+# grid_lgb_HB=GridSearchCV(model_lgb,param_grid=param_lgb_list,cv=10,verbose=0,n_jobs=-1,scoring='neg_mean_squared_error')
 # start_time=time.clock()
 # X_train.fillna(0)
 # y_train_HB.fillna(0)
@@ -104,7 +104,7 @@ result.to_csv("./dataset/PredResultLGB_0505.csv", encoding='utf-8',index=False)
 # print('LightGBM_best_params_',grid_lgb_HDL.best_params_)
 # print("run_time",endtime-start_time)
 
-# grid_lgb_LDL=GridSearchCV(model_lgb,param_grid=param_lgb_list,cv=10,verbose=0,n_jobs=-1,scoring='neg_mean_squared_log_error')
+# grid_lgb_LDL=GridSearchCV(model_lgb,param_grid=param_lgb_list,cv=10,verbose=0,n_jobs=-1,scoring='neg_mean_squared_error')
 # start_time=time.clock()
 # grid_lgb_LDL.fit(X_train,y_train_LDL)
 # endtime=time.clock()

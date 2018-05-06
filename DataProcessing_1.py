@@ -68,9 +68,9 @@ print('totle time',time.time() - begin_time)
 
 
 train = pd.read_csv('./dataset/round1_train.csv', encoding = 'utf-8')
-test= pd.read_csv('./dataset/round1_test.csv', encoding = 'utf-8')
+test= pd.read_csv('./dataset/round1_test_b.csv', encoding = 'utf-8')
 data=pd.read_csv('./dataset/tmp.csv',low_memory=False)
 train_new = data[data['vid'].isin(train['vid'].values)]
 test_new = data[data['vid'].isin(test['vid'].values)]
 train_new.to_csv("./dataset/train.csv",encoding='utf-8' )
-test_new.to_csv("./dataset/test.csv",encoding='utf-8')
+test_new.to_csv("./dataset/test_b.csv",encoding='utf-8')
