@@ -27,7 +27,7 @@ y_train_LB, y_train_HB, y_train_TRI, y_train_HDL, y_train_LDL \
 
 
 clf_LB=lgb.LGBMRegressor(max_depth=10,n_estimators=100,learning_rate=0.01,num_leaves=300,max_bin=200)
-clf_HB=lgb.LGBMRegressor(max_depth=20,n_estimators=20,learning_rate=0.003,num_leaves=100,max_bin=100)
+clf_HB=lgb.LGBMRegressor(max_depth=10,n_estimators=5,learning_rate=0.003,num_leaves=100,max_bin=100)
 clf_TRI=lgb.LGBMRegressor(max_depth=20,n_estimators=400,learning_rate=0.003,num_leaves=100,max_bin=100)
 clf_HDL=lgb.LGBMRegressor(max_depth=30,n_estimators=300,learning_rate=0.005,num_leaves=150,max_bin=100)
 clf_LDL=lgb.LGBMRegressor(max_depth=20,n_estimators=100,learning_rate=0.03,num_leaves=100,max_bin=150)
@@ -48,13 +48,13 @@ y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL=\
 print("okay")
 
 result=pd.concat([y_pred_LB,y_pred_HB,y_pred_TRI,y_pred_HDL,y_pred_LDL],axis=1)
-result.to_csv("./dataset/PredResultLGB_0506_1.csv", encoding='utf-8',index=False)
+result.to_csv("./dataset/PredResultLGB_0507_1.csv", encoding='utf-8',index=False)
 # 构建LightGBM模型
 # model_lgb=lgb.LGBMRegressor()
 # param_lgb_list={
-#     'boosting':['gbdt','rf'],
-#     "max_depth":[20],
-#     "n_estimators":[20],
+#     'boosting':['gbdt'],
+#     "max_depth":[10],
+#     "n_estimators":[5],
 #     "learning_rate":[0.003],
 #     "num_leaves":[100],
 #     'max_bin':[100],
